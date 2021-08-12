@@ -1,0 +1,875 @@
+openapi: 3.0.3
+servers:
+  - url: "https://my.cryptoapis.io/api"
+    description: REST API
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Error:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+          description: Specifies the version of the API that incorporates this endpoint.
+          example: "2.0"
+        context:
+          type: string
+          description: Context in every response will be 'mobile'
+          example: mobile
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Specifies the error code
+              example: unauthenticated
+            message:
+              type: string
+              description: Specifies the message of the error
+              example: Unauthenticated
+            details:
+              type: object
+              description: Optional details of the error
+          required:
+            - code
+            - message
+      required:
+        - apiVersion
+        - context
+        - error
+info:
+  title: CryptoAPIs
+  version: 2.0.0
+  description: "Crypto APIs 2.0 is a complex and innovative infrastructure layer that radically simplifies the development of any Blockchain and Crypto related applications. Organized around REST, Crypto APIs 2.0 can assist both novice Bitcoin/Ethereum enthusiasts and crypto experts with the development of their blockchain applications. Crypto APIs 2.0 provides unified endpoints and data, raw data, automatic tokens and coins forwardings, callback functionalities, and much more."
+  termsOfService: "https://cryptoapis.io/terms-conditions/"
+  contact:
+    name: Crypto APIs Team
+    url: "https://cryptoapis.io"
+    email: developers@cryptoapis.io
+  license:
+    name: MIT
+    url: "http://www.opensource.org/licenses/mit-license.php"
+paths:
+  /devices/activate:
+    post:
+      operationId: Activate Device
+      summary: Activate Device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context:
+                  type: string
+                  description: Context in every request body must be 'mobile'
+                  example: mobile
+                data:
+                  type: object
+                  properties:
+                    item:
+                      type: object
+                      properties:
+                        activationCode:
+                          type: string
+                          description: Device activation code
+                          example: 5d8e95289bf25691afbfc745fd98de78
+                        clientId:
+                          type: string
+                          description: Client ID
+                          example: 5dee1c53c4995900137b6002
+                        userId:
+                          type: string
+                          description: User ID
+                          example: 608291204a63e6df1a27ac64
+                        deviceId:
+                          type: string
+                          description: Device ID
+                          example: 608291204a63e6df1a27ac66
+                        deviceData:
+                          type: object
+                          description: Device Info Data
+                      required:
+                        - activationCode
+                        - clientId
+                        - userId
+                        - deviceId
+                        - deviceData
+                  required:
+                    - item
+              required:
+                - context
+                - data
+      responses:
+        "200":
+          description: The device has been successfully activated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apiVersion:
+                    type: string
+                    description: Specifies the version of the API that incorporates this endpoint.
+                    example: "2.0"
+                  context:
+                    type: string
+                    description: Context in every response will be 'mobile'
+                    example: mobile
+                  data:
+                    type: object
+                    properties:
+                      item:
+                        type: object
+                        properties:
+                          code:
+                            type: string
+                            description: Device authorization code
+                            example: 4975c7b09af8c2a3787d1381bdf587d7
+                        required:
+                          - code
+                    required:
+                      - item
+                required:
+                  - apiVersion
+                  - context
+                  - data
+        "500":
+          description: Unexpected Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /devices/authenticate:
+    post:
+      operationId: Authenticate Device
+      summary: Authenticate Device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context:
+                  type: string
+                  description: Context in every request body must be 'mobile'
+                  example: mobile
+                data:
+                  type: object
+                  properties:
+                    item:
+                      type: object
+                      properties:
+                        authCode:
+                          type: string
+                          description: Device activation code
+                          example: 860507f1cf8dba09e005c3880e6f2aa5
+                        clientId:
+                          type: string
+                          description: Client ID
+                          example: 5dee1c53c4995900137b6002
+                        userId:
+                          type: string
+                          description: User ID
+                          example: 608291204a63e6df1a27ac64
+                        deviceId:
+                          type: string
+                          description: Device ID
+                          example: 608291204a63e6df1a27ac66
+                      required:
+                        - authCode
+                        - clientId
+                        - userId
+                        - deviceId
+                  required:
+                    - item
+              required:
+                - context
+                - data
+      responses:
+        "200":
+          description: The device has been successfully authenticated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apiVersion:
+                    type: string
+                    description: Specifies the version of the API that incorporates this endpoint.
+                    example: "2.0"
+                  context:
+                    type: string
+                    description: Context in every response will be 'mobile'
+                    example: mobile
+                  data:
+                    type: object
+                    properties:
+                      item:
+                        type: object
+                        properties:
+                          accessToken:
+                            type: string
+                            description: Device access token
+                            example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kZXYudjIuZGFzaGJvYXJkLmNyeXB0b2FwaXMuaW9cL2FwaVwvZGV2aWNlc1wvYXV0aGVudGljYXRlIiwiaWF0IjoxNjIyNDY3OTk1LCJleHAiOjE2MjI0Njg4OTUsIm5iZiI6MTYyMjQ2Nzk5NSwianRpIjoiaEtGak9EWm55QTBER1RjRiIsInN1YiI6ImtyaXN0aXlhbi5pdmFub3ZAbWVuYXNvZnR3YXJlLmNvbSIsInBydiI6ImRkYzMzNGY3MzNlMzlhYmJiNTQxYjliNjliYzkwN2VjMjhjMjI3NGYifQ.jpNxFOARnYcJISPjsgUN1hRdqAopHKRgLIwYBYlSfTo
+                          tokenType:
+                            type: string
+                            description: Access token type
+                            example: Bearer
+                          expiresIn:
+                            type: string
+                            description: Access token expiration time in seconds
+                            example: "3600"
+                        required:
+                          - accessToken
+                          - tokenType
+                          - expiresIn
+                    required:
+                      - item
+                required:
+                  - apiVersion
+                  - context
+                  - data
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Unexpected Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /waas/transactions-requests:
+    get:
+      operationId: List Awaiting Approval Transactions
+      summary: List Awaiting Approval Transactions
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: Offset to start from
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apiVersion:
+                    type: string
+                    description: Specifies the version of the API that incorporates this endpoint.
+                    example: "2.0"
+                  context:
+                    type: string
+                    description: Context in every response will be 'mobile'
+                    example: mobile
+                  data:
+                    type: object
+                    properties:
+                      offset:
+                        type: integer
+                        description: Offset to start from
+                        example: 10
+                      limit:
+                        type: integer
+                        description: The numbers of items to return
+                        example: 1
+                      total:
+                        type: integer
+                        description: Total items to list
+                        example: 1235
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: ID of the transaction request.
+                              example: 60b4d47526c470fb04ff6f51
+                            status:
+                              type: string
+                              description: Status of the transaction request.
+                              example: "created, await_approval, pending etc."
+                            blockchain:
+                              type: string
+                              description: Blockchain of the transaction request.
+                              example: BITCOIN
+                            network:
+                              type: string
+                              description: Network of the transaction request.
+                              example: TESTNET
+                            feePriority:
+                              type: string
+                              description: Fee priority of the transaction request.
+                              example: FAST
+                            context:
+                              type: string
+                              description: Context of the transaction request.
+                              example: XPUB_WALLET
+                            destinations:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  address:
+                                    type: string
+                                    description: Destination address.
+                                    example: ms4KNsbNpoU8g424pzmEjbkFbfAHae1msB
+                                  amount:
+                                    type: string
+                                    description: Amount to send to the given address.
+                                    example: 12
+                                required:
+                                  - address
+                                  - amount
+                            amount:
+                              type: string
+                              description: Total amount of the current transaction request.
+                              example: 12
+                            createdTimestamp:
+                              type: string
+                              description: Timestamp of the transaction request.
+                              example: 1622206146
+                            approvals:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  teamMemberId:
+                                    type: string
+                                    description: ID of the approver/team member.
+                                    example: 60866ee347ef820006460ba4
+                                  approvedTimestamp:
+                                    type: string
+                                    description: Timestamp of the approval.
+                                    example: 1620979450
+                                  name:
+                                    type: string
+                                    description: Name of the approver/team member.
+                                    example: John Johnson
+                                required:
+                                  - teamMemberId
+                                  - approvedTimestamp
+                                  - name
+                            requiredApprovalsCount:
+                              type: integer
+                              description: Required approvals for the transaction request to be processed.
+                              example: 3
+                            walletId:
+                              type: string
+                              description: ID of the Wallet
+                              example: 60b0aa93e8dda20007f6f87a
+                            walletName:
+                              type: string
+                              description: Name of the Wallet
+                              example: My Wallet
+                            amountInRelationUnitAsset:
+                              type: string
+                              description: Total amount of the current transaction request in USD
+                              example: 50000
+                            requiredRejectsCount:
+                              type: integer
+                              description: Required rejects for the transaction request to be processed.
+                              example: 2
+                            rejects:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  teamMemberId:
+                                    type: string
+                                    description: ID of the rejecter/team member.
+                                    example: 60866ee347ef820006460ba4
+                                  rejectedTimestamp:
+                                    type: string
+                                    description: Timestamp of the reject.
+                                    example: 1620979450
+                                  name:
+                                    type: string
+                                    description: Name of the rejecter/team member.
+                                    example: John Johnson
+                                required:
+                                  - teamMemberId
+                                  - rejectedTimestamp
+                                  - name
+                            rejecters:
+                              type: array
+                              items:
+                                type: string
+                                description: Name of the rejecter/team member.
+                                example: John Johnson
+                            approvers:
+                              type: array
+                              items:
+                                type: string
+                                description: Name of the rejecter/team member.
+                                example: John Johnson
+                            canApprove:
+                              type: boolean
+                              description: If the current user can approve the transaction request.
+                              example: true
+                            canReject:
+                              type: boolean
+                              description: If the current user can reject the transaction request.
+                              example: true
+                          required:
+                            - id
+                            - status
+                            - blockchain
+                            - network
+                            - feePriority
+                            - context
+                            - destinations
+                            - amount
+                            - createdTimestamp
+                            - requiredApprovalsCount
+                            - walletId
+                            - walletName
+                            - amountInRelationUnitAsset
+                            - requiredRejectsCount
+                            - rejects
+                            - rejecters
+                            - approvers
+                            - canApprove
+                            - canReject
+                    required:
+                      - total
+                      - limit
+                      - offset
+                      - items
+                required:
+                  - apiVersion
+                  - context
+                  - data
+        "401":
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Unexpected Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  "/waas/transactions-requests/{txId}":
+    get:
+      operationId: Show Transaction Request Details
+      summary: Show Transaction Request Details
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: txId
+          required: true
+          schema:
+            type: string
+          description: ID of the transaction to be approved
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apiVersion:
+                    type: string
+                    description: Specifies the version of the API that incorporates this endpoint.
+                    example: "2.0"
+                  context:
+                    type: string
+                    description: Context in every response will be 'mobile'
+                    example: mobile
+                  data:
+                    type: object
+                    properties:
+                      item:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            description: ID of the transaction request.
+                            example: 60b4d47526c470fb04ff6f51
+                          status:
+                            type: string
+                            description: Status of the transaction request.
+                            example: "created, await_approval, pending etc."
+                          blockchain:
+                            type: string
+                            description: Blockchain of the transaction request.
+                            example: BITCOIN
+                          network:
+                            type: string
+                            description: Network of the transaction request.
+                            example: TESTNET
+                          feePriority:
+                            type: string
+                            description: Fee priority of the transaction request.
+                            example: FAST
+                          context:
+                            type: string
+                            description: Context of the transaction request.
+                            example: XPUB_WALLET
+                          destinations:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                address:
+                                  type: string
+                                  description: Destination address.
+                                  example: ms4KNsbNpoU8g424pzmEjbkFbfAHae1msB
+                                amount:
+                                  type: string
+                                  description: Amount to send to the given address.
+                                  example: 12
+                              required:
+                                - address
+                                - amount
+                          amount:
+                            type: string
+                            description: Total amount of the current transaction request.
+                            example: 12
+                          createdTimestamp:
+                            type: string
+                            description: Timestamp of the transaction request.
+                            example: 1622206146
+                          approvals:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                teamMemberId:
+                                  type: string
+                                  description: ID of the approver/team member.
+                                  example: 60866ee347ef820006460ba4
+                                approvedTimestamp:
+                                  type: string
+                                  description: Timestamp of the approval.
+                                  example: 1620979450
+                                name:
+                                  type: string
+                                  description: Name of the approver/team member.
+                                  example: John Johnson
+                              required:
+                                - teamMemberId
+                                - approvedTimestamp
+                                - name
+                          requiredApprovalsCount:
+                            type: integer
+                            description: Required approvals for the transaction request to be processed.
+                            example: 3
+                          walletId:
+                            type: string
+                            description: ID of the Wallet
+                            example: 60b0aa93e8dda20007f6f87a
+                          walletName:
+                            type: string
+                            description: Name of the Wallet
+                            example: My Wallet
+                          amountInRelationUnitAsset:
+                            type: string
+                            description: Total amount of the current transaction request in USD
+                            example: 50000
+                          requiredRejectsCount:
+                            type: integer
+                            description: Required rejects for the transaction request to be processed.
+                            example: 2
+                          rejects:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                teamMemberId:
+                                  type: string
+                                  description: ID of the rejecter/team member.
+                                  example: 60866ee347ef820006460ba4
+                                rejectedTimestamp:
+                                  type: string
+                                  description: Timestamp of the reject.
+                                  example: 1620979450
+                                name:
+                                  type: string
+                                  description: Name of the rejecter/team member.
+                                  example: John Johnson
+                              required:
+                                - teamMemberId
+                                - rejectedTimestamp
+                                - name
+                          rejecters:
+                            type: array
+                            items:
+                              type: string
+                              description: Name of the rejecter/team member.
+                              example: John Johnson
+                          approvers:
+                            type: array
+                            items:
+                              type: string
+                              description: Name of the rejecter/team member.
+                              example: John Johnson
+                          canApprove:
+                            type: boolean
+                            description: If the current user can approve the transaction request.
+                            example: true
+                          canReject:
+                            type: boolean
+                            description: If the current user can reject the transaction request.
+                            example: true
+                        required:
+                          - id
+                          - status
+                          - blockchain
+                          - network
+                          - feePriority
+                          - context
+                          - destinations
+                          - amount
+                          - createdTimestamp
+                          - requiredApprovalsCount
+                          - walletId
+                          - walletName
+                          - amountInRelationUnitAsset
+                          - requiredRejectsCount
+                          - rejects
+                          - rejecters
+                          - approvers
+                          - canApprove
+                          - canReject
+                    required:
+                      - item
+                required:
+                  - apiVersion
+                  - context
+                  - data
+        "401":
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Unexpected Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  "/waas/transactions-requests/{txId}/approve/":
+    post:
+      operationId: Approve Transaction by Id
+      summary: Approve Transaction by Id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: txId
+          required: true
+          schema:
+            type: string
+          description: ID of the transaction to be approved
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apiVersion:
+                    type: string
+                    description: Specifies the version of the API that incorporates this endpoint.
+                    example: "2.0"
+                  context:
+                    type: string
+                    description: Context in every response will be 'mobile'
+                    example: mobile
+                  data:
+                    type: object
+                    properties:
+                      item:
+                        type: object
+                        properties:
+                          status:
+                            type: string
+                            description: Response status
+                            example: OK
+                          action:
+                            type: string
+                            description: Response action
+                            example: approved_transaction_request
+                        required:
+                          - status
+                          - action
+                    required:
+                      - item
+                required:
+                  - apiVersion
+                  - context
+                  - data
+        "401":
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Unexpected Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  "/waas/transactions-requests/{txId}/reject/":
+    post:
+      operationId: Reject Transaction by Id
+      summary: Reject Transaction by Id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: txId
+          required: true
+          schema:
+            type: string
+          description: ID of the transaction to be rejected
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apiVersion:
+                    type: string
+                    description: Specifies the version of the API that incorporates this endpoint.
+                    example: "2.0"
+                  context:
+                    type: string
+                    description: Context in every response will be 'mobile'
+                    example: mobile
+                  data:
+                    type: object
+                    properties:
+                      item:
+                        type: object
+                        properties:
+                          status:
+                            type: string
+                            description: Response status
+                            example: OK
+                          action:
+                            type: string
+                            description: Response action
+                            example: rejected_transaction_request
+                        required:
+                          - status
+                          - action
+                    required:
+                      - item
+                required:
+                  - apiVersion
+                  - context
+                  - data
+        "401":
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "405":
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Unexpected Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"

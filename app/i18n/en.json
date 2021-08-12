@@ -1,0 +1,48 @@
+{
+  "onboardingScreen": {
+    "title": "Activation",
+    "textScanQR": "Pair your phone by scanning the QR code from Crypto APIs console.",
+    "buttonText": "Scan QR Code"
+  },
+  "transactionScreen": {
+    "title": "Transactions approval",
+    "text": "No pending transactions. Time to relax!",
+    "requested": "Requested by: No Data",
+    "from": "From: No Data",
+    "to": "To: No data",
+    "approve": "Approved by "
+  },
+  "transactionConfirm": {
+    "title": "Please insert your 6-digits code"
+  },
+  "onboardingQRCodeScanner": {
+    "topBarText": "Scan the QR code on the \n  Crypto API’s console"
+  },
+  "registerPinCode": {
+    "title": "Set your PIN Code"
+  },
+  "successScreen": {
+    "title": "Success!"
+  },
+  "transactionSummaryScreen": {
+    "title": "Transcation summary",
+    "requestedBy": "Requested by:",
+    "from": "From:",
+    "fee": "Fee:",
+    "to": "To:",
+    "approveButtonText": "Approve",
+    "rejectButtonText": "Reject"
+  },
+  "common": {
+    "ok": "OK!",
+    "cancel": "Cancel",
+    "back": "Back"
+  },
+  "errors": {
+    "invalidEmail": "Invalid email address."
+  },
+  "storybook": {
+    "placeholder": "Placeholder",
+    "field": "Field"
+  }
+}

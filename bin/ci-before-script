@@ -1,0 +1,14 @@
+const path = require("path")
+const fs = require("fs")
+
+const environment = `module.exports = {
+  ENVIRONMENT: "local",
+  SENTRY_DSN: "",
+}
+`
+
+const configPath = path.resolve(__dirname, "../app/config/env.js")
+
+fs.writeFileSync(configPath, environment)
+
+console.log("Successfuly written CI environment file.")
