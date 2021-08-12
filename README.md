@@ -7,17 +7,25 @@ Currently includes:
 - TypeScript
 - And more!
 
+## Images from the application
+
+![IMG_4429](https://user-images.githubusercontent.com/39880364/129169656-0ac43748-8d4e-4ca6-8f2d-c915c088eece.PNG)
+![IMG_4427](https://user-images.githubusercontent.com/39880364/129169666-0e419d22-1eb1-4058-b34c-1fb57fcb2b01.PNG)
+![IMG_4426](https://user-images.githubusercontent.com/39880364/129169697-39377dc4-cfe3-4d85-93a3-465b57617182.PNG)
+
 ## Including environment variables
+
 Before you run the application, add an environment file in app/config/env.js with the value from the app/config/env.js.example file.
- 
+
 ## Running the application
+
 Follow the link https://reactnative.dev/docs/environment-setup and make sure you switch to "React Native CLI Quickstart", then choose your "Development OS" and "Target OS" and follow the instructions step by step very carefully. This project uses Node 14 version. When you are done with setting up the "Development environment". It is recommended to install Yarn through the "NPM" package manager, which comes bundled with Node.js when you install it on your system. To install Yarn, you have to open your "Terminal" and run "npm install --global yarn".When you have installed Yarn successfully, you have to start "Metro", run "yarn start" inside your React Native project folder. In order to run it on your mobile device you should type "yarn android". If you are using the "macOS" system, run the "yarn ios", this command will automatically run your app on the iOS Simulator by default. If you want to run the app on an actual physical iOS device make sure you follow this link "https://reactnative.dev/docs/running-on-device".
 
 ## TURN OFF DEVELOPMENT MODE FOR ANDROID
+
 If you are running the application on Android, you must turn off development mode, since it is causing more issues than it solves.
 
 ## Quick Start
-
 
 The project's structure will look similar to this:
 
